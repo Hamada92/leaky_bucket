@@ -12,12 +12,12 @@ module LeakyBucket
 
     class << self
       attr_accessor :cache
-      
+
       def throttle(ip, threshold: 100, interval: 3600, burst: 10)
         bucket = LeakyBucket.cache.read(ip) || new_counter
 
         #leak proper number of requests since last request time.
-        bucket = leak(bucket)
+        bucket = leak(bucket, threshold, interval)
 
         if bucket[:current_load] > burst
           raise LeakyBucket::TooManyRequests.new((interval/threshold) - (Time.now.to_i - bucket[:last_request_made_at]))
@@ -28,7 +28,7 @@ module LeakyBucket
 
       private
 
-      def leak(bucket)
+      def leak(bucket, threshold, interval)
         now = Time.now.to_i
         #the bucket leaks 100 requests/hour by default ~= 1.6 request/minute 
         leak_rate = interval / threshold
