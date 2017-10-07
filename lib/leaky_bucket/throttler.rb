@@ -11,8 +11,10 @@ module LeakyBucket
   class Throttler
 
     class << self
+      attr_accessor :cache
+      
       def throttle(ip, threshold: 100, interval: 3600, burst: 10)
-        bucket = Rails.cache.read(ip) || new_counter
+        bucket = LeakyBucket.cache.read(ip) || new_counter
 
         #leak proper number of requests since last request time.
         bucket = leak(bucket)
@@ -39,7 +41,7 @@ module LeakyBucket
       def increment(ip, bucket)
         bucket[:current_load] += 1
         bucket[:last_request_made_at] = Time.now.to_i
-        Rails.cache.write(ip, bucket)
+        LeakyBucket.cache.write(ip, bucket)
       end
 
       #used as a cache key for the first api request from this IP address
