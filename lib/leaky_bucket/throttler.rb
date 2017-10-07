@@ -47,6 +47,5 @@ module LeakyBucket
         { current_load: 0, last_request_made_at: 0 }
       end
     end
-
   end
 end
