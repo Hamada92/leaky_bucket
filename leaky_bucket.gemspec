@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["ahmad.kaate@gmail.com"]
 
   spec.summary       = %q{limit the number of requests made to your api using the solid leaky bucket algorithm}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/Hamada92/leaky_bucket"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
