@@ -20,7 +20,7 @@ Or install it yourself as:
 
 Then create a `leaky_bucket.rb` initializer file in `config/initializers` with :
 
-```
+```ruby
 LeakyBucket.cache = Rails.cache # or memcached
 ```
 
@@ -40,7 +40,7 @@ the `throttle` method will raise an exception and return and 429 response code i
 
 By default, the threshold is 100 requests/hour, to override it, just provide the params:
 
-```
+```ruby
 # allow maximum 50 requests per minute.
 LeakyBucket::Throttler.throttle(ip, threshold: 50, interval: 60, burst: 10)
 ```
